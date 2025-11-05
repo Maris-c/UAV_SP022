@@ -1,0 +1,8 @@
+{
+    "mqtt_broker": "localhost",
+    "mqtt_port": 1883,
+    "mqtt_username": "sp022user",
+    "mqtt_password": "sp022",
+    "mqtt_client_id": "aruco_publisher",
+    "mqtt_lwt_topic": "sp022/log"
+}
