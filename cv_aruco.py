@@ -87,18 +87,24 @@ def main(mqtt_handler):
                         timestamp = time.strftime("%H:%M:%S")
                         log_data = send_data(timestamp, marker_id, detect_time_ms, detected_ids, log_data, mqtt_handler)
                         last_detected_id = marker_id
+            cv2.imshow("Aruco Scanner", frame_rgb)
+            
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+               print("\Thoát chương trình...", flush=True)
+               break
 
             if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
                 if sys.stdin.readline().strip().lower() == 'q':
                     print("\nThoát chương trình...", flush=True)
                     break
 
-            if time.time() - last_detect_time > 30:
-                print("\n⏸ Không phát hiện mã mới trong 30s, dừng chương trình...")
+            if time.time() - last_detect_time > 180:
+                print("\n⏸ Không phát hiện mã mới trong 180s, dừng chương trình...")
                 break
 
     finally:
         picam2.stop()
+        cv2.destroyAllWindows()
         save_log_to_file(log_data)
         print("Các ID đã phát hiện:", detected_ids, flush=True)
         print("Chương trình kết thúc.", flush=True)
